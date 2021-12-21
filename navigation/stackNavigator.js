@@ -14,7 +14,8 @@ const Stack=createStackNavigator({
         navigationOptions:{title: 'Main Menu'}
     },
     Library:{
-        screen: Library
+        screen: Library,
+        navigationOptions:({ navigation }) => ({ title: navigation.getParam('name') })
     },
 }
     
