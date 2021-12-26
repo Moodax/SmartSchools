@@ -18,7 +18,7 @@ class Login extends Component {
     const{username}=this.state;
     const{password}=this.state;
     
-    fetch('http://localhost/connection.php',{
+    fetch('http://smartschools.c1.biz/connection.php',{
     method:'post',
     header:{
       'Accept':'application/json',
