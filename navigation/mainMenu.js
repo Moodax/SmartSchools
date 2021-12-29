@@ -1,52 +1,39 @@
-import React,{useState} from 'react';
-import { Text, View, StyleSheet,Button, FlatList } from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { Text, View, StyleSheet,Button, FlatList,ActivityIndicator } from 'react-native';
 import SubjectCard from './subjectCard';
 import { Dimensions } from 'react-native';
+import { render } from 'react-dom';
 
 export default function MainMenu({ navigation }) {
-  const [subjects,setSubjects]=useState([
-    {
-      key:1,
-      name:'Hrvatski jezik'
+  var [subjects,setSubjects]=useState([])
+  const [isLoading, setLoading] = useState(true);
+    
+  useEffect(() => {
+    getData();
+    async function getData() {
+      const response = await fetch('http://smartschools.c1.biz/get_subjects.php',{
+      method:'post',
+    header:{
+      'Accept':'application/json',
+      'Content-type':'application/json'
     },
-    {
-      key:2,
-      name:'Matematika'
-    },
-    {
-      key:3,
-      name:'Engleski jezik'
-    },
-    {
-      key:4,
-      name:'Fizika'
-    },
-    {
-      key:5,
-      name:'Programiranje'
-    },
-    {
-      key:6,
-      name:'Elektrotehnika'
-    },
-    {
-      key:7,
-      name:'Povijest'
-    },
-    {
-      key:8,
-      name:'Geografija'
-    },
-    {
-      key:9,
-      name:'Kemija'
-    },
-    {
-      key:10,
-      name:'Biologija'
+    body:JSON.stringify({
+      username:navigation.getParam('username')
+    })
+    })
+      const data = await response.json();
+      for(let i = 0; i < data.length; i++) {
+        subjects.push({
+          key: i,
+          name:data[i][1]
+        });
+      }
+      console.log(subjects);
+    setLoading(false);
     }
-    ]
-    )
+    
+  }, []);
+
     const pressHandler=(name)=>{
       navigation.navigate('Library', name)
     }
@@ -55,17 +42,20 @@ export default function MainMenu({ navigation }) {
     rows=1;
   return (
     <View style={styles.container}>
-      
-      <FlatList
+      {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+        shouldComponentUpdate={true}
       showsVerticalScrollIndicator={false}
       numColumns={rows}
         data={subjects}
+        extraData={subjects}
         keyExtractor={(item)=>item.key.toString()}
         renderItem={({item})=>(
           <SubjectCard item={item} pressHandler={pressHandler}/>
         )}
       />
-      
+      )}
+
     </View>
   );
 }

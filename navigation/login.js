@@ -32,7 +32,7 @@ class Login extends Component {
     .then(response => response.json())
       .then(responseJson=>{
         if(responseJson=='1'){
-          this.props.navigation.navigate('MainMenu')
+          this.props.navigation.navigate('MainMenu',{username:username})
         }
         else
         alert(responseJson);
@@ -44,6 +44,7 @@ class Login extends Component {
   }
 render(){
   return (
+    
     <View style={styles.container}>
 
     <Text style={styles.text}>Username:</Text>

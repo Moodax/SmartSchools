@@ -25,5 +25,6 @@ card:{
 text:{
     fontSize:20,
     fontWeight:'bold',
+    textAlign:'center'
 }
 })
