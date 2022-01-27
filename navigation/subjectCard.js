@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+
 
 
 export default function SubjectCard({item,pressHandler}){

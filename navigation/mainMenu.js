@@ -37,7 +37,7 @@ export default function MainMenu({ navigation }) {
     const pressHandler=(name)=>{
       navigation.navigate('Library', name)
     }
-    const rows=Math.trunc(Dimensions.get('window').width/247);
+    const rows=Math.trunc(Dimensions.get('window').width/267);
     if(rows<1)
     rows=1;
   return (
@@ -46,7 +46,7 @@ export default function MainMenu({ navigation }) {
         <FlatList
         shouldComponentUpdate={true}
       showsVerticalScrollIndicator={false}
-      numColumns={rows}
+        numColumns={rows}
         data={subjects}
         extraData={subjects}
         keyExtractor={(item)=>item.key.toString()}

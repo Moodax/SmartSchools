@@ -55,7 +55,7 @@ render(){
 
       <Text style={styles.text}>Password:</Text>
 
-      <TextInput secureTextEntry='true'
+      <TextInput secureTextEntry={true}
       style={styles.input}
       onChangeText={(password) => this.setState({ password })}
       />
