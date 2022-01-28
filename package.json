@@ -25,6 +25,7 @@
     "react-native-screens": "^3.10.1",
     "react-native-slider-color-picker": "^2.2.2",
     "react-native-web": "^0.17.5",
+    "react-native-wheel-color-picker": "^1.2.0",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4"
   },

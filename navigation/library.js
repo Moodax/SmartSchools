@@ -1,26 +1,63 @@
-import React from 'react';
-import { Dimensions,StyleSheet, View } from 'react-native';
+import React,{useState,Component} from 'react';
+import { Dimensions,StyleSheet, View,Button } from 'react-native';
 import CanvasDraw from "react-canvas-draw";
 import { withNavigation } from 'react-navigation';
-
-  function Library({ navigation }) {
-  return (
+import ColorPicker from 'react-native-wheel-color-picker';
+  class Library extends Component{
+    constructor(props){
+      super(props)
+      this.canvas = React.createRef();
+      this.state={
+        currentColor:'#000000',
+        value:'0.0'
+      }
+      
+    }
+    
+    onColorChange=(color)=>{
+      this.setState({
+        currentColor: color
+      });
+    }
+  render(){
+    return (
     <View style={styles.container}>
     <View style={{ backgroundColor: "rgb(245, 245, 245)", flex: 0.2}} >
+    <View style={{height:"30%",marginHorizontal:25}}>
+    <ColorPicker
+					ref={r => { this.picker = r }}
+					color={this.state.currentColor}
+					swatchesOnly={false}
+					onColorChange={this.onColorChange}
+					onColorChangeComplete={this.onColorChangeComplete}
+					thumbSize={25}
+					sliderSize={20}
+					noSnap={true}
+					row={false}
+					swatchesLast={true}
+					swatches={true}
+					discrete={false}
+				/>
+				
+    </View>
+    <View style={{padding:50}} >
+     
+    </View>
     </View>
     <View style={{ backgroundColor: "red", flex: 0.8,maxHeight:"100%",maxWidth:"100%" }}  >
     <CanvasDraw style={{ position:'relative',height:'100%',width:'100%' }}
-    
+    ref={this.canvas}
     canvasHeight={Dimensions.get('window').height}
      canvasWidth={Dimensions.get('window').width}
-     brushColor='black'
+     brushColor={this.state.currentColor}
       hideGrid
      />
      </View>
      </View>
   )
   
-  }
+  }}
+
   export default withNavigation(Library);
 
   const styles = StyleSheet.create({
