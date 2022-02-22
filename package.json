@@ -8,20 +8,32 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@miblanchard/react-native-slider": "^2.1.0",
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-community/slider": "^4.0.0-rc.3",
     "@react-navigation/native": "^6.0.4",
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
-    "expo": "~42.0.1",
-    "expo-status-bar": "~1.0.4",
-    "metro-react-native-babel-transformer": "^0.66.2",
-    "react": "^17.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "core-js": "^3.21.1",
+    "expo": "^44.0.6",
+    "expo-status-bar": "~1.2.0",
+    "jsx-runtime": "^1.2.0",
+    "metro-react-native-babel-preset": "^0.68.0",
+    "metro-react-native-babel-transformer": "^0.68.0",
+    "react": "^17.0.2",
     "react-canvas-draw": "^1.2.1",
-    "react-dom": "^16.14.0",
+    "react-dom": "^17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-blob-util": "^0.13.18",
+    "react-native-blob-util": "^0.14.0",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-modal": "^13.0.0",
     "react-native-openanything": "0.0.6",
     "react-native-pdf": "^6.4.0",
+    "react-native-reanimated": "^2.3.2",
+    "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "^3.10.1",
     "react-native-slider-color-picker": "^2.2.2",
     "react-native-web": "^0.17.5",
@@ -30,7 +42,8 @@
     "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.7"
   },
   "private": true
 }

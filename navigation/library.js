@@ -1,170 +1,146 @@
-import React,{useState,Component} from 'react';
-import { Dimensions,StyleSheet, View,Button } from 'react-native';
-import CanvasDraw from "react-canvas-draw";
-import { withNavigation } from 'react-navigation';
-import ColorPicker from 'react-native-wheel-color-picker';
-  class Library extends Component{
-    constructor(props){
-      super(props)
-      this.canvas = React.createRef();
-      this.state={
-        currentColor:'#000000',
-        value:'0.0'
-      }
-      
-    }
-    
-    onColorChange=(color)=>{
-      this.setState({
-        currentColor: color
+import React,{useState,useEffect} from 'react';
+import { Text, View, StyleSheet,TouchableOpacity, FlatList,ActivityIndicator} from 'react-native';
+import SubjectCard from './subjectCard';
+import { Dimensions } from 'react-native';
+import Modal from "react-native-modal";
+import { TextInput } from 'react-native-gesture-handler';
+import { useIsFocused } from "@react-navigation/native";
+
+export default function MainMenu({ navigation }) {
+  var [notebooks,setNotebooks]=useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const[notebookName,setNotebookName]=useState(null);
+  
+  useEffect(() => {
+      getData();
+  }, []);
+
+  async function getData() {
+    const response = await fetch('http://smartschools.c1.biz/get_notebooks.php',{
+    method:'post',
+  header:{
+    'Accept':'application/json',
+    'Content-type':'application/json'
+  },
+  body:JSON.stringify({
+    username:navigation.getParam('username'),
+    subject:navigation.getParam('name')
+  })
+  })
+    const data = await response.json();
+    for(let i = 0; i < data.length; i++) {
+      notebooks.push({
+        key: data[i][0],
+        name:data[i][1],
+        content:data[i][2]
       });
     }
-  render(){
-    return (
-    <View style={styles.container}>
-    <View style={{ backgroundColor: "rgb(245, 245, 245)", flex: 0.2}} >
-    <View style={{height:"30%",marginHorizontal:25}}>
-    <ColorPicker
-					ref={r => { this.picker = r }}
-					color={this.state.currentColor}
-					swatchesOnly={false}
-					onColorChange={this.onColorChange}
-					onColorChangeComplete={this.onColorChangeComplete}
-					thumbSize={25}
-					sliderSize={20}
-					noSnap={true}
-					row={false}
-					swatchesLast={true}
-					swatches={true}
-					discrete={false}
-				/>
-				
-    </View>
-    <View style={{padding:50}} >
-     
-    </View>
-    </View>
-    <View style={{ backgroundColor: "red", flex: 0.8,maxHeight:"100%",maxWidth:"100%" }}  >
-    <CanvasDraw style={{ position:'relative',height:'100%',width:'100%' }}
-    ref={this.canvas}
-    canvasHeight={Dimensions.get('window').height}
-     canvasWidth={Dimensions.get('window').width}
-     brushColor={this.state.currentColor}
-      hideGrid
-     />
-     </View>
-     </View>
-  )
-  
-  }}
-
-  export default withNavigation(Library);
-
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: '#fff',
-      width:'100%',
-      flexDirection:"row",
-      height:'100%',
-      maxHeight:'100%',
-      maxWidth:'100%'
-    },
-    thumb: {
-      width: 20,
-      height: 20,
-      borderColor: 'white',
-      borderWidth: 1,
-      borderRadius: 10,
-      shadowColor: 'black',
-      shadowOffset: {
-          width: 0,
-          height: 2
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.35,
-  },
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*const canvasRef=useRef(null)
-  const contextRef=useRef(null)
-  const[isDrawing,setIsDrawing]=useState(false);
-  useEffect(()=>{
-      const canvas=canvasRef.current;
-      canvas.width=window.innerWidth*2;
-      canvas.height=window.innerHeight*2;
-      canvas.style.width='${window.innerWidth}px';
-      canvas.style.height='${window.innerHeight}px';
-      const context=canvas.getContext("2d")
-      context.lineCap="round";
-      context.scale(2,2)
-      context.strokeStyle="black"
-      context.lineWidth=5
-      contextRef.current=context;
-  },[])
-
-
-
-
-
-
-  const startDrawing=({nativeEvent})=>{
-    const {offsetX,offsetY}=nativeEvent;
-    contextRef.current.beginPath()
-    contextRef.current.moveTo(offsetX,offsetY)
-    setIsDrawing(true)
-  }
-  const stopDrawing=()=>{
-    setIsDrawing(false)
+  setLoading(false);
   }
 
-  const draw=({nativeEvent})=>{
-    if(!isDrawing)
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+
+   const newNotebook=()=>{
+    if(notebookName!=null)
     {
-      return
+      fetch('http://smartschools.c1.biz/create_notebook.php',{
+    method:'post',
+    header:{
+      'Accept':'application/json',
+      'Content-type':'application/json'
+    },
+    body:JSON.stringify({
+      username:navigation.getParam('username'),
+      subject:navigation.getParam('name'),
+      notebookName:notebookName.notebookName
+    })
+  }) 
+    .then(response => response.json())
+      .then(responseJson=>{
+        
+        setModalVisible(!isModalVisible);
+          navigation.navigate('Notebook',{id:responseJson,content:'null'});
+      })
+      .catch((error)=>{
+        console.error(error);
+      });
     }
-    const{offsetX,offsetY}=nativeEvent;
-    contextRef.current.lineTo(offsetX,offsetY)
-    contextRef.current.stroke()
-    
   }
-
-
-
+    const pressHandler=(item)=>{
+      if(item.key==0)
+      {
+        setNotebookName(null)
+        setModalVisible(!isModalVisible);
+      }
+      else navigation.navigate('Notebook',{id:item.key,content:item.content} )
+    }
+    const rows=Math.trunc(Dimensions.get('window').width/267);
+    if(rows<1)
+    rows=1;
   return (
-
-    <canvas
-    onMouseDown={startDrawing}
-    onMouseUp={stopDrawing}
-    onMouseMove={draw}
-    ref={canvasRef}
-    />*/
-
-
-
-    /*<View style={styles.container}>
-      <Text style={styles.text}>Odabrali ste predmet naziva {navigation.getParam('name')}!</Text>
-      <Button title="Otvori PDF knjigu" 
-        onPress={() => OpenAnything.Pdf('http://www.africau.edu/images/default/sample.pdf')}
+    <View style={styles.container}>
+      {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+        shouldComponentUpdate={true}
+      showsVerticalScrollIndicator={false}
+        numColumns={rows}
+        data={notebooks}
+        extraData={notebooks}
+        keyExtractor={(item)=>item.key.toString()}
+        renderItem={({item})=>(
+          <SubjectCard item={item} pressHandler={pressHandler}/>
+        )}
       />
-    </View>*/
-  //);
+      )}
+      <Modal isVisible={isModalVisible}
+        backdropOpacity={0.4}
+        onBackdropPress={toggleModal}>
+        <View style={{ flex: 1,backgroundColor:'white',maxHeight:400,width:600,alignSelf:'center',borderRadius:20}}>
+        <View style={{flexDirection:"row",borderBottomColor:'rgb(167,167,170)',borderBottomWidth:1}}>
+          <Text style={{fontSize:30,color:'rgb(151,149,151)',marginLeft:5}}>New notebook</Text>
+          </View>
+          <TextInput placeholder="Enter new notebook name" style={{minWidth:50,borderBottomColor:'grey',borderBottomWidth:1,padding:3,margin:10}}
+          onChangeText={(notebookName) => setNotebookName({notebookName})}></TextInput>
+          <View style={{flexDirection:"row"}}>
+          <TouchableOpacity
+        onPress={newNotebook}
+        style={styles.button}>
+        <Text style={{fontSize:15}}>Create</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={toggleModal}
+        style={styles.button}>
+        <Text style={{fontSize:15}}>Cancel</Text>
+      </TouchableOpacity>
+          </View>
+          
+        </View>
+      </Modal>
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width:'100%'
+    },
+    button:{
+      padding:10,
+      display: 'inline-block',
+      fontWeight: 20,
+      lineHeight: 1.5,
+      textAlign: 'center',
+      backgroundColor: 'white',
+      borderWidth:1,
+      borderRadius: 10,
+      color: '#0d6efd',
+      borderColor: '#0d6efd',}
+    
+  });

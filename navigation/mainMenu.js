@@ -28,14 +28,13 @@ export default function MainMenu({ navigation }) {
           name:data[i][1]
         });
       }
-      console.log(subjects);
     setLoading(false);
     }
     
   }, []);
 
     const pressHandler=(name)=>{
-      navigation.navigate('Library', name)
+      navigation.navigate('Library',{name:name.name,username:navigation.getParam('username')})
     }
     const rows=Math.trunc(Dimensions.get('window').width/267);
     if(rows<1)
