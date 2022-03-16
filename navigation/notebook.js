@@ -113,8 +113,9 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
      brushColor={this.state.currentColor}
      brushRadius={this.state.thick}
       hideGrid
-      loadTimeOffset={0}
+      loadTimeOffset={2}
       lazyRadius={5}
+      immediateLoading={true}
      />
      </View>
      </View>
