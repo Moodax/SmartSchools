@@ -3,7 +3,8 @@ import { createAppContainer } from 'react-navigation';
 import Login from './login';
 import Library from './library';
 import MainMenu from './mainMenu';
-import Notebook from './notebook'
+import Notebook from './notebook';
+import Chapters from './chapters';
 
 const Stack=createStackNavigator({
     Login:{
@@ -20,7 +21,11 @@ const Stack=createStackNavigator({
     },
     Notebook:{
         screen:Notebook,
-        navigationOptions:{title: 'Notebook'}
+        navigationOptions:({ navigation }) => ({ title: navigation.getParam('name') })
+    },
+    Chapters:{
+        screen:Chapters,
+        navigationOptions:({ navigation }) => ({ title: navigation.getParam('name') })
     }
 }
     

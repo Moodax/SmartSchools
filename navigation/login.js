@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React,{useState,Component} from 'react';
 import { Text, View, StyleSheet, TextInput,FlatList,Button } from 'react-native';
 import { withNavigation } from 'react-navigation';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 class Login extends Component {
   constructor(props){
     super(props)
@@ -63,6 +63,7 @@ render(){
       <Button
       title="Login"
       onPress={this.userLogin}
+
       />
     </View>
   );
@@ -79,10 +80,10 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     text:{
-      fontSize:20
+      fontSize:hp('3%')
     },
     input:{
-      minWidth:300,
+      minWidth:wp('15%'),
       borderColor:'grey',
       borderWidth:1,
       padding:3,

@@ -34,7 +34,7 @@ export default function MainMenu({ navigation }) {
   }, []);
 
     const pressHandler=(name)=>{
-      navigation.navigate('Library',{name:name.name,username:navigation.getParam('username')})
+      navigation.navigate('Chapters',{name:name.name,username:navigation.getParam('username')})
     }
     const rows=Math.trunc(Dimensions.get('window').width/267);
     if(rows<1)

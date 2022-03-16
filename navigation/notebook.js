@@ -3,7 +3,7 @@ import { Dimensions,StyleSheet, View,TouchableOpacity,Text} from 'react-native';
 import CanvasDraw from "react-canvas-draw";
 import { withNavigation } from 'react-navigation';
 import ColorPicker from 'react-native-wheel-color-picker';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
   class Notebook extends Component{
     constructor(props){
@@ -12,9 +12,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
       this.state={
         currentColor:'#000000',
         thick:1.0,
-        
       }
-      
     }
     componentDidMount() {
       if(this.props.navigation.getParam('content')!="null")
@@ -66,7 +64,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
     <TouchableOpacity
         onPress={this.saveData}
         style={styles.eraser}>
-        <Text style={{fontSize:15}}>Save</Text>
+        <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Save</Text>
       </TouchableOpacity>
       </View>
     <View style={{height:"30%",marginHorizontal:25}}>
@@ -85,7 +83,6 @@ import ColorPicker from 'react-native-wheel-color-picker';
 					discrete={false}
 
 				/>
-				
     </View>
     
    
@@ -104,7 +101,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
       <TouchableOpacity
         onPress={this.getEraser}
         style={styles.eraser}>
-        <Text style={{fontSize:15}}>Eraser</Text>
+        <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Eraser</Text>
       </TouchableOpacity>
     </View>
     </View>
@@ -116,8 +113,8 @@ import ColorPicker from 'react-native-wheel-color-picker';
      brushColor={this.state.currentColor}
      brushRadius={this.state.thick}
       hideGrid
-      loadTimeOffset={1}
-      lazyRadius={10}
+      loadTimeOffset={0}
+      lazyRadius={5}
      />
      </View>
      </View>
@@ -152,30 +149,26 @@ import ColorPicker from 'react-native-wheel-color-picker';
   },
   roundButton: {
     display: 'inline-block',
-    color: '#668ad8',
-    width: 50,
-    height: 50,
+    color: '#007aff',
+    width: hp("5%"),
+    height: hp("5%"),
     lineHeight: 50,
     borderRadius: 50,
     borderWidth:2,
     margin:10,
-    borderColor:'#668ad8',
+    borderColor:'#007aff',
     textAlign: 'center',
     overflow: 'hidden',
     fontWeight: 'bold',
     backgroundColor:'white'
   },
   eraser:{
-    padding:10,
-    display: 'inline-block',
-    fontWeight: 20,
-    lineHeight: 1.5,
-    textAlign: 'center',
-    backgroundColor: 'white',
+    backgroundColor:"#fff",
+    borderRadius:5,
     borderWidth:1,
-    borderRadius: 10,
-    color: '#0d6efd',
-    borderColor: '#0d6efd',}
+    borderColor:"#007aff",
+    padding:5
+    }
   
   });
 

@@ -6,33 +6,33 @@ import Modal from "react-native-modal";
 import { TextInput } from 'react-native-gesture-handler';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-export default function MainMenu({ navigation }) {
-  var [notebooks,setNotebooks]=useState([]);
+export default function Chapters({ navigation }) {
+  var [chapters,setChapters]=useState([]);
   const [isLoading, setLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
-  const[notebookName,setNotebookName]=useState(null);
+  const[chapterName,setChapterName]=useState(null);
   
   useEffect(() => {
       getData();
   }, []);
 
   async function getData() {
-    const response = await fetch('http://smartschools.c1.biz/get_notebooks.php',{
+    const response = await fetch('http://smartschools.c1.biz/get_chapters.php',{
     method:'post',
   header:{
     'Accept':'application/json',
     'Content-type':'application/json'
   },
   body:JSON.stringify({
-    id:navigation.getParam('id'),
+    username:navigation.getParam('username'),
+    subject:navigation.getParam('name')
   })
   })
     const data = await response.json();
     for(let i = 0; i < data.length; i++) {
-      notebooks.push({
+      chapters.push({
         key: data[i][0],
         name:data[i][1],
-        content:data[i][2]
       });
     }
   setLoading(false);
@@ -43,10 +43,10 @@ export default function MainMenu({ navigation }) {
   };
 
 
-   const newNotebook=()=>{
-    if(notebookName!=null)
+   const newChapter=()=>{
+    if(chapterName!=null)
     {
-      fetch('http://smartschools.c1.biz/create_notebook.php',{
+      fetch('http://smartschools.c1.biz/create_chapter.php',{
     method:'post',
     header:{
       'Accept':'application/json',
@@ -54,16 +54,15 @@ export default function MainMenu({ navigation }) {
     },
     body:JSON.stringify({
       username:navigation.getParam('username'),
-      subject:navigation.getParam('subject'),
-      notebookName:notebookName.notebookName,
-      id:navigation.getParam('id'),
+      subject:navigation.getParam('name'),
+      chapterName:chapterName.chapterName
     })
   }) 
     .then(response => response.json())
       .then(responseJson=>{
         
         setModalVisible(!isModalVisible);
-          navigation.navigate('Notebook',{id:responseJson,content:'null',name:notebookName.notebookName});
+          navigation.navigate('Library',{id:responseJson,name:chapterName.chapterName,username:navigation.getParam('username'), subject:navigation.getParam('name')});
       })
       .catch((error)=>{
         console.error(error);
@@ -73,10 +72,10 @@ export default function MainMenu({ navigation }) {
     const pressHandler=(item)=>{
       if(item.key==0)
       {
-        setNotebookName(null)
+        setChapterName(null)
         setModalVisible(!isModalVisible);
       }
-      else navigation.navigate('Notebook',{id:item.key,content:item.content,name:item.name} )
+      else navigation.navigate('Library',{id:item.key,name:item.name,username:navigation.getParam('username'), subject:navigation.getParam('name')} )
     }
     const rows=Math.trunc(Dimensions.get('window').width/267);
     if(rows<1)
@@ -88,8 +87,8 @@ export default function MainMenu({ navigation }) {
         shouldComponentUpdate={true}
       showsVerticalScrollIndicator={false}
         numColumns={rows}
-        data={notebooks}
-        extraData={notebooks}
+        data={chapters}
+        extraData={chapters}
         keyExtractor={(item)=>item.key.toString()}
         renderItem={({item})=>(
           <SubjectCard item={item} pressHandler={pressHandler}/>
@@ -101,22 +100,22 @@ export default function MainMenu({ navigation }) {
         onBackdropPress={toggleModal}>
         <View style={{ flex: 1,backgroundColor:'white',maxHeight:hp('20%'),width:wp('20%'),alignSelf:'center',borderRadius:20}}>
         <View style={{flexDirection:"row",borderBottomColor:'rgb(167,167,170)',borderBottomWidth:1}}>
-          <Text style={{fontSize:hp('2%'),color:'rgb(151,149,151)',marginLeft:5}}>New notebook</Text>
+          <Text style={{fontSize:hp('2%'),color:'rgb(151,149,151)',marginLeft:5}}>New chapter</Text>
           </View>
           <View style={{justifyContent:'center'}}>
-          <TextInput placeholder="Enter new notebook name" style={{minWidth:wp('10%'),borderBottomColor:'grey',borderBottomWidth:1,padding:3,margin:10}}
-          onChangeText={(notebookName) => setNotebookName({notebookName})}></TextInput>
+          <TextInput placeholder="Enter new chapter name" style={{minWidth:wp('10%'),borderBottomColor:'grey',borderBottomWidth:1,padding:3,margin:10}}
+          onChangeText={(chapterName) => setChapterName({chapterName})}></TextInput>
           </View>
           <View style={{flexDirection:"row",justifyContent:'center',alignItems:'center',margin:30}}>
           <TouchableOpacity
-        onPress={newNotebook}
+        onPress={newChapter}
         style={styles.button}>
-        <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Create</Text>
+        <Text style={{fontSize:wp('1.4%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Create</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={toggleModal}
         style={styles.button}>
-        <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Cancel</Text>
+        <Text style={{fontSize:wp('1.4%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Cancel</Text>
       </TouchableOpacity>
           </View>
           
