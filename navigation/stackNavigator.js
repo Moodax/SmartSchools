@@ -5,7 +5,7 @@ import Library from './library';
 import MainMenu from './mainMenu';
 import Notebook from './notebook';
 import Chapters from './chapters';
-
+import { Image,TouchableOpacity,Button,View } from 'react-native';
 const Stack=createStackNavigator({
     Login:{
         screen: Login,
@@ -13,7 +13,8 @@ const Stack=createStackNavigator({
     },
     MainMenu:{
         screen: MainMenu,
-        navigationOptions:{title: 'Main Menu'}
+        navigationOptions:{title: 'Main Menu'},
+        
     },
     Library:{
         screen: Library,
@@ -22,10 +23,14 @@ const Stack=createStackNavigator({
     Notebook:{
         screen:Notebook,
         navigationOptions:({ navigation }) => ({ title: navigation.getParam('name') })
+        
     },
     Chapters:{
         screen:Chapters,
-        navigationOptions:({ navigation }) => ({ title: navigation.getParam('name') })
+        navigationOptions:({ navigation }) => ({ title: navigation.getParam('name')}),
+        
+        
+    
     }
 }
     

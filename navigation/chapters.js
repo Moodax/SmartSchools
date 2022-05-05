@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { Text, View, StyleSheet,TouchableOpacity, FlatList,ActivityIndicator} from 'react-native';
+import { useIsFocused } from "react-navigation-hooks";
 import SubjectCard from './subjectCard';
 import { Dimensions } from 'react-native';
 import Modal from "react-native-modal";
@@ -11,12 +12,17 @@ export default function Chapters({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
   const[chapterName,setChapterName]=useState(null);
-  
+
+  const isFocused = useIsFocused();
+ 
   useEffect(() => {
-      getData();
-  }, []);
+    getData();
+  }, [isFocused]);
+
 
   async function getData() {
+    
+    console.log(chapters);
     const response = await fetch('http://smartschools.c1.biz/get_chapters.php',{
     method:'post',
   header:{
@@ -29,7 +35,12 @@ export default function Chapters({ navigation }) {
   })
   })
     const data = await response.json();
+    while(chapters.length!=0)
+    {
+      chapters.pop();
+    }
     for(let i = 0; i < data.length; i++) {
+      
       chapters.push({
         key: data[i][0],
         name:data[i][1],

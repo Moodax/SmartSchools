@@ -15,6 +15,7 @@
     "@react-native-community/slider": "^4.0.0-rc.3",
     "@react-navigation/native": "^6.0.4",
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
+    "@types/react-native": "^0.67.6",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.21.1",
@@ -40,6 +41,7 @@
     "react-native-web": "^0.17.5",
     "react-native-wheel-color-picker": "^1.2.0",
     "react-navigation": "^4.4.4",
+    "react-navigation-hooks": "^1.1.0",
     "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {

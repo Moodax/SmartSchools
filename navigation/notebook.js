@@ -92,18 +92,18 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
         style={styles.roundButton}>
       <Text style={{fontSize:30}}>-</Text>
       </TouchableOpacity>
-      <Text style={{width:60,minWidth:60,maxWidth:60,margin:20,textAlign: 'center',fontSize:30}}>{this.state.thick}</Text>
+      <Text style={{width:60,maxWidth:60,margin:20,textAlign: 'center',fontSize:30}}>{this.state.thick}</Text>
       <TouchableOpacity
         onPress={this.buttonPlus}
         style={styles.roundButton}>
         <Text style={{fontSize:30}}>+</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+    </View>
+    <TouchableOpacity
         onPress={this.getEraser}
         style={styles.eraser}>
         <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Eraser</Text>
       </TouchableOpacity>
-    </View>
     </View>
     <View style={{ backgroundColor: "red", flex: 0.8,maxHeight:"100%",maxWidth:"100%"}}  >
     <CanvasDraw style={{ position:'relative',height:'100%',width:'100%' }}
@@ -168,7 +168,9 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     borderRadius:5,
     borderWidth:1,
     borderColor:"#007aff",
-    padding:5
+    padding:5,
+    width:wp("10%"),
+    alignSelf:'center'
     }
   
   });

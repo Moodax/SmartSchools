@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { Text, View, StyleSheet,TouchableOpacity, FlatList,ActivityIndicator} from 'react-native';
 import SubjectCard from './subjectCard';
+import { useIsFocused } from "react-navigation-hooks";
 import { Dimensions } from 'react-native';
 import Modal from "react-native-modal";
 import { TextInput } from 'react-native-gesture-handler';
@@ -11,10 +12,10 @@ export default function MainMenu({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
   const[notebookName,setNotebookName]=useState(null);
-  
+  const isFocused = useIsFocused();
   useEffect(() => {
       getData();
-  }, []);
+  }, [isFocused]);
 
   async function getData() {
     const response = await fetch('http://smartschools.c1.biz/get_notebooks.php',{
@@ -28,6 +29,10 @@ export default function MainMenu({ navigation }) {
   })
   })
     const data = await response.json();
+    while(notebooks.length!=0)
+    {
+      notebooks.pop();
+    }
     for(let i = 0; i < data.length; i++) {
       notebooks.push({
         key: data[i][0],
