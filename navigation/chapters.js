@@ -6,6 +6,7 @@ import { Dimensions } from 'react-native';
 import Modal from "react-native-modal";
 import { TextInput } from 'react-native-gesture-handler';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import * as OpenAnything from 'react-native-openanything';
 
 export default function Chapters({ navigation }) {
   var [chapters,setChapters]=useState([]);
@@ -16,14 +17,18 @@ export default function Chapters({ navigation }) {
   const isFocused = useIsFocused();
  
   useEffect(() => {
+    setLoading(true);
+    while(chapters.length!=0)
+    {
+      chapters.pop();
+    }
     getData();
   }, [isFocused]);
 
 
   async function getData() {
     
-    console.log(chapters);
-    const response = await fetch('http://smartschools.c1.biz/get_chapters.php',{
+    let response = await fetch('http://smartschools.c1.biz/get_books.php',{
     method:'post',
   header:{
     'Accept':'application/json',
@@ -34,19 +39,48 @@ export default function Chapters({ navigation }) {
     subject:navigation.getParam('name')
   })
   })
-    const data = await response.json();
-    while(chapters.length!=0)
-    {
-      chapters.pop();
+    let data = await response.json();
+    
+    for(let i = 0; i < data.length; i++) {
+      if(i==0)
+      {
+        chapters.push({
+          key: data[i][0],
+          name:data[i][1],
+          link:data[i][2]
+        });
+      }
+      else
+      chapters.push({
+        key: data[i][0]+110000,
+        name:data[i][1],
+        link:data[i][2]
+      });
     }
+    
+    response = await fetch('http://smartschools.c1.biz/get_chapters.php',{
+    method:'post',
+  header:{
+    'Accept':'application/json',
+    'Content-type':'application/json'
+  },
+  body:JSON.stringify({
+    username:navigation.getParam('username'),
+    subject:navigation.getParam('name')
+  })
+  })
+    data = await response.json();
+    
     for(let i = 0; i < data.length; i++) {
       
       chapters.push({
         key: data[i][0],
         name:data[i][1],
+        link:"null"
       });
     }
   setLoading(false);
+  console.log(chapters);
   }
 
   const toggleModal = () => {
@@ -85,6 +119,10 @@ export default function Chapters({ navigation }) {
       {
         setChapterName(null)
         setModalVisible(!isModalVisible);
+      }
+      else if(item.link!="null")
+      {
+        OpenAnything.Pdf(item.link);
       }
       else navigation.navigate('Library',{id:item.key,name:item.name,username:navigation.getParam('username'), subject:navigation.getParam('name')} )
     }

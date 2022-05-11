@@ -63,7 +63,6 @@ render(){
       <Button
       title="Login"
       onPress={this.userLogin}
-
       />
     </View>
   );

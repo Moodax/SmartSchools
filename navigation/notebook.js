@@ -60,14 +60,14 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     return (
     <View style={styles.container}>
     <View style={{ backgroundColor: "rgb(252, 252, 252)", flex: 0.2}} >
-    <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+    <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center",paddingTop:10}}>
     <TouchableOpacity
         onPress={this.saveData}
         style={styles.eraser}>
         <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Save</Text>
       </TouchableOpacity>
       </View>
-    <View style={{height:"30%",marginHorizontal:25}}>
+    <View style={{height:"50%",marginHorizontal:25}}>
     <ColorPicker
 					ref={r => { this.picker = r }}
 					color={this.state.currentColor}
@@ -86,13 +86,13 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     </View>
     
    
-    <View style={{padding:50,flexDirection:"row",justifyContent:"center",alignItems:"center"}} >
+    <View style={{flex:0.9,padding:50,flexDirection:"row",justifyContent:"center",alignItems:"center"}} >
     <TouchableOpacity
         onPress={this.buttonMinus}
         style={styles.roundButton}>
       <Text style={{fontSize:30}}>-</Text>
       </TouchableOpacity>
-      <Text style={{width:60,maxWidth:60,margin:20,textAlign: 'center',fontSize:30}}>{this.state.thick}</Text>
+      <Text style={{width:60,maxWidth:60,minWidth:60,margin:20,textAlign: 'center',fontSize:30}}>{this.state.thick}</Text>
       <TouchableOpacity
         onPress={this.buttonPlus}
         style={styles.roundButton}>
@@ -105,7 +105,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
         <Text style={{fontSize:hp('3%'),color:"#007aff",fontWeight:600,alignSelf:'center'}}>Eraser</Text>
       </TouchableOpacity>
     </View>
-    <View style={{ backgroundColor: "red", flex: 0.8,maxHeight:"100%",maxWidth:"100%"}}  >
+    <View style={{flex: 0.8,maxHeight:"100%",maxWidth:"100%"}}  >
     <CanvasDraw style={{ position:'relative',height:'100%',width:'100%' }}
     ref={this.canvas}
     canvasHeight={Dimensions.get('window').height}

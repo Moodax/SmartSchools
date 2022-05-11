@@ -1,5 +1,6 @@
 {
   "expo": {
+    "displayName":"SmartSchools",
     "name": "SmartSchools",
     "slug": "SmartSchools",
     "version": "1.0.0",
@@ -27,7 +28,9 @@
       "package": "com.moodax.SmartSchools"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name":"SmartSchools",
+      "displayName":"SmartSchools"
     },
     "description": ""
   }
